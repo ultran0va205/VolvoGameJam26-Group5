@@ -4,7 +4,8 @@ public class ConveyorEnd : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<ConveyorItem>() != null)
+        Rigidbody rb = other.GetComponent<Rigidbody>();
+        if (rb != null)
         {
             Destroy(other.gameObject);
         }
