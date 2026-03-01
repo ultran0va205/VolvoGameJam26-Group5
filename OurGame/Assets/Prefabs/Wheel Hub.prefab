@@ -183,6 +183,7 @@ GameObject:
   - component: {fileID: 383560629257981578}
   - component: {fileID: 8924393398506887788}
   - component: {fileID: 831959997348324715}
+  - component: {fileID: 37877879979412377}
   m_Layer: 0
   m_Name: Wheel Hub
   m_TagString: Untagged
@@ -265,3 +266,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &37877879979412377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7352173478568397012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a279f4b96db9889438ccbffebe3e2653, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemType: 2

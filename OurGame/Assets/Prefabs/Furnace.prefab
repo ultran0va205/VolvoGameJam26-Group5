@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 99098646074518327}
   - component: {fileID: 1496386059638901891}
   m_Layer: 0
-  m_Name: Visual_FurnaceOff
+  m_Name: Visual_Furnace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 6526986600068034009}
   - component: {fileID: 2833386626091328644}
   m_Layer: 0
-  m_Name: Visual_LMoldOff
+  m_Name: Visual_RMold
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -115,7 +115,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.207, y: 0.096, z: -0.364}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_ConstrainProportionsScale: 1
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4955085241611435261}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -163,7 +163,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 331d091afc08fce49bfbb46ffc69f281, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0ae4ad1af61006c44a255611a4772f42, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -269,7 +269,7 @@ GameObject:
   - component: {fileID: 287214656956542149}
   - component: {fileID: 4483116906746683540}
   m_Layer: 0
-  m_Name: Visual_RMoldOff
+  m_Name: Visual_LMold
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -284,7 +284,7 @@ Transform:
   m_GameObject: {fileID: 8446286002611800851}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.278, y: 0.135, z: -0.274}
+  m_LocalPosition: {x: -0.278, y: 0.18, z: -0.274}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -334,7 +334,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: dff66141c41434645ae0ec13ae7abc15, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fda0b46fa21173c4ca4a0c5606fd37bd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -376,8 +376,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.11, y: 1.43, z: 13.37}
-  m_LocalScale: {x: 2.9048285, y: 3.2392538, z: 2.6992755}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 9083358389247370227}
   - {fileID: 5868434297176218144}
@@ -490,3 +490,12 @@ MonoBehaviour:
   processingTime: 3
   wheelHubPrefab: {fileID: 7352173478568397012, guid: ed68cc0998d0459458ada98f8b483ee1, type: 3}
   outputPoint: {fileID: 9083358389247370227}
+  furnaceRenderer: {fileID: 1496386059638901891}
+  moldLeftRenderer: {fileID: 4483116906746683540}
+  moldRightRenderer: {fileID: 2833386626091328644}
+  furnaceOffSprite: {fileID: 21300000, guid: 953649c3517693249887048ff9d38dae, type: 3}
+  furnaceOnSprite: {fileID: 21300000, guid: 0079c9147aa834340abf9c0ac751c87a, type: 3}
+  LmoldOffSprite: {fileID: 21300000, guid: dff66141c41434645ae0ec13ae7abc15, type: 3}
+  LmoldOnSprite: {fileID: 21300000, guid: fda0b46fa21173c4ca4a0c5606fd37bd, type: 3}
+  RmoldOffSprite: {fileID: 21300000, guid: 331d091afc08fce49bfbb46ffc69f281, type: 3}
+  RmoldOnSprite: {fileID: 21300000, guid: 0ae4ad1af61006c44a255611a4772f42, type: 3}

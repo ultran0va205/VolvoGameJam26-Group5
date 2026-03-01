@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Furnace currentFurnace;
 
+    private Bin currentBin = null;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -76,6 +78,16 @@ public class PlayerController : MonoBehaviour
                 {
                     heldItem = null;
                     return;
+                }
+            }
+
+            if (currentBin != null)
+            {
+                bool accepted = currentBin.TryDisposeItem(heldItem);
+                if (accepted)
+                {
+                    heldItem = null;
+                    return; // done
                 }
             }
 
@@ -162,6 +174,13 @@ public class PlayerController : MonoBehaviour
         {
             currentFurnace = furnace;
         }
+
+        Bin bin = other.GetComponentInChildren<Bin>();
+        if (bin != null)
+        {
+            currentBin = bin;
+            Debug.Log($"Entered {bin.name}");
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -170,6 +189,13 @@ public class PlayerController : MonoBehaviour
         if (furnace != null && furnace == currentFurnace)
         {
             currentFurnace = null;
+        }
+
+        Bin bin = other.GetComponentInChildren<Bin>();
+        if (bin != null && currentBin == bin)
+        {
+            currentBin = null;
+            Debug.Log($"Exited {bin.name}");
         }
     }
 

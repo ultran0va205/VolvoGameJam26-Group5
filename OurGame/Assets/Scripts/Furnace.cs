@@ -13,6 +13,26 @@ public class Furnace : MonoBehaviour
     private List<GameObject> storedMetal = new List<GameObject>();
     private bool isProcessing = false;
 
+    [SerializeField] private SpriteRenderer furnaceRenderer;
+    [SerializeField] private SpriteRenderer moldLeftRenderer;
+    [SerializeField] private SpriteRenderer moldRightRenderer;
+
+    [SerializeField] private Sprite furnaceOffSprite;
+    [SerializeField] private Sprite furnaceOnSprite;
+
+    [SerializeField] private Sprite LmoldOffSprite;
+    [SerializeField] private Sprite LmoldOnSprite;
+
+    [SerializeField] private Sprite RmoldOffSprite;
+    [SerializeField] private Sprite RmoldOnSprite;
+
+    private bool isOn = false;
+
+    private void Start()
+    {
+        SetFurnaceState(false);
+    }
+
     public bool TryInsertItem(GameObject itemObject)
     {
         if (isProcessing)
@@ -54,6 +74,7 @@ public class Furnace : MonoBehaviour
         isProcessing = true;
 
         Debug.Log("Furnace started processing!");
+        SetFurnaceState(true);
 
         float timer = 0f;
 
@@ -65,6 +86,8 @@ public class Furnace : MonoBehaviour
         }
 
         Debug.Log("Processing complete! Creating Wheel Hub.");
+        SetFurnaceState(false);
+
 
         // Destroy stored metal scraps
         foreach (var metal in storedMetal)
@@ -78,4 +101,21 @@ public class Furnace : MonoBehaviour
         isProcessing = false;
     }
 
+    public void SetFurnaceState(bool on)
+    {
+        isOn = on;
+
+        if (isOn)
+        {
+            furnaceRenderer.sprite = furnaceOnSprite;
+            moldLeftRenderer.sprite = LmoldOnSprite;
+            moldRightRenderer.sprite = RmoldOnSprite;
+        }
+        else
+        {
+            furnaceRenderer.sprite = furnaceOffSprite;
+            moldLeftRenderer.sprite = LmoldOffSprite;
+            moldRightRenderer.sprite = RmoldOffSprite;
+        }
+    }
 }

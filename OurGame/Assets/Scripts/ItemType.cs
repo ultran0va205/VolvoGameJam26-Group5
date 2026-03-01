@@ -4,5 +4,6 @@ public enum ItemType
 {
     MetalScrap,
     PlasticScrap,
-    WheelHub
+    WheelHub,
+    PlasticEndProduct
 }
