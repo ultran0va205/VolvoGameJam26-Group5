@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
-using static UnityEditor.Progress;
 
 public class PlayerController : MonoBehaviour
 {
@@ -19,22 +17,14 @@ public class PlayerController : MonoBehaviour
     private PickableItem currentInteractable;
     private GameObject heldItem;
 
-    private int heldItemOriginalSortingOrder;
-
-    private Furnace currentFurnace;
+    [SerializeField] private Furnace currentFurnace;
 
     private Bin currentBin = null;
-
-    [SerializeField] private Animator animator;
-    private static readonly int BlendX = Animator.StringToHash("BlendX");
-    private static readonly int BlendY = Animator.StringToHash("BlendY");
-    private static readonly int IsWalking = Animator.StringToHash("IsWalking");
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
         controller = GetComponent<CharacterController>();
-        //animator = GetComponent<Animator>();
     }
 
     void LateUpdate()
@@ -101,16 +91,28 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-            rb.isKinematic = true;
+            rb.isKinematic = false;
             rb.linearVelocity = Vector3.zero;
+
+            //Then: Try normal placeable surfaces
+            foreach (var hit in hits)
+            {
+                if (hit.CompareTag("Placeable Surface"))
+                {
+                    heldItem.transform.SetParent(null);
+                    heldItem.transform.position = hit.transform.position + Vector3.up * 0.1f;
+                    heldItem = null;
+                    return;
+                }
+            }
 
             //Otherwise drop
             Vector3 dropPosition = transform.position + transform.forward * 0.6f;
-            dropPosition.y = 0.8f;
+            dropPosition.y = transform.position.y; // prevent vertical weirdness
 
             heldItem.transform.SetParent(null);
             heldItem.transform.position = dropPosition;
-            heldItem.GetComponentInChildren<SpriteRenderer>().sortingOrder = 1;
+
             heldItem = null;
             return;
         }
@@ -129,9 +131,6 @@ public class PlayerController : MonoBehaviour
             heldItem.transform.SetParent(holdPoint);
             heldItem.transform.localPosition = Vector3.zero;
             heldItem.transform.localRotation = Quaternion.identity;
-
-            heldItemOriginalSortingOrder = heldItem.GetComponentInChildren<SpriteRenderer>().sortingOrder;
-            heldItem.GetComponentInChildren<SpriteRenderer>().sortingOrder = 2;
 
             currentInteractable = null;
         }
@@ -161,15 +160,6 @@ public class PlayerController : MonoBehaviour
 
         Vector3 move = camForward * moveInput.y * upDownSpeedMultiplier + camRight * moveInput.x;
         controller.Move(move * speed * Time.deltaTime);
-
-        if (animator != null)
-        {
-            animator.SetFloat(BlendX, Mathf.Lerp(animator.GetFloat(BlendX), moveInput.x, Time.deltaTime * 10f));
-            animator.SetFloat(BlendY, Mathf.Lerp(animator.GetFloat(BlendY), moveInput.y, Time.deltaTime * 10f));
-        }
-
-        Debug.Log($"moveInput: {moveInput} | BlendX: {animator.GetFloat(BlendX)} | BlendY: {animator.GetFloat(BlendY)}");
-        animator.SetBool(IsWalking, moveInput.magnitude > 0.1f);
 
         if (heldItem != null)
         {
@@ -208,7 +198,5 @@ public class PlayerController : MonoBehaviour
             Debug.Log($"Exited {bin.name}");
         }
     }
-
-   
 
 }
