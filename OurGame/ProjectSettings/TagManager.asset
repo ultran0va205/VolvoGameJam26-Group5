@@ -42,13 +42,16 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Characters
-    uniqueID: 3103510681
+  - name: Floor
+    uniqueID: 879650139
+    locked: 0
+  - name: Belt
+    uniqueID: 2350636657
     locked: 0
   - name: Items
     uniqueID: 1961851027
     locked: 0
-  - name: Floor
+  - name: Character
     uniqueID: 379566511
     locked: 0
   m_RenderingLayers:

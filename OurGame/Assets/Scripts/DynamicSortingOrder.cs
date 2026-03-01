@@ -7,7 +7,7 @@ public class DynamicSortingOrder : MonoBehaviour
 
     void Awake()
     {
-        sr = GetComponent<SpriteRenderer>();
+        sr = GetComponentInChildren<SpriteRenderer>();
     }
 
     void LateUpdate()
