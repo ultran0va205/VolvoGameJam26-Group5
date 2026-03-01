@@ -13,6 +13,13 @@ public class Furnace : MonoBehaviour
     private List<GameObject> storedMetal = new List<GameObject>();
     private bool isProcessing = false;
 
+    [SerializeField] private GameObject pelletsPrefab;
+    //[SerializeField] private Transform plasticOutputPoint;
+    private bool isProcessingPlastic = false;
+    private float plasticTimer = 0f;
+    private List<GameObject> storedPlastic = new List<GameObject>();
+
+
     [SerializeField] private SpriteRenderer furnaceRenderer;
     [SerializeField] private SpriteRenderer moldLeftRenderer;
     [SerializeField] private SpriteRenderer moldRightRenderer;
@@ -36,25 +43,32 @@ public class Furnace : MonoBehaviour
 
     public bool TryInsertItem(GameObject itemObject)
     {
-        if (isProcessing)
-        {
-            Debug.Log("Furnace is already processing!");
-            return false;
-        }
-
         Item item = itemObject.GetComponent<Item>();
+        if (item == null) return false;
 
-        if (item == null)
-            return false;
-
-        if (item.itemType != ItemType.MetalScrap)
+        if (item.itemType == ItemType.MetalScrap)
         {
-            Debug.Log("Only MetalScrap can be inserted!");
-            return false;
+            if (isProcessing) { Debug.Log("Furnace is already processing metal!"); return false; }
+            StoreMetal(itemObject);
+            return true;
+        }
+        else if (item.itemType == ItemType.ShreddedPlastic)
+        {
+            if (isProcessingPlastic || storedPlastic.Count > 0) { Debug.Log("Furnace is already processing plastic!"); return false; }
+            StorePlastic(itemObject);
+            return true;
         }
 
-        StoreMetal(itemObject);
-        return true;
+        Debug.Log("Item not accepted by furnace!");
+        return false;
+    }
+
+    private void StorePlastic(GameObject plastic)
+    {
+        plastic.SetActive(false);
+        storedPlastic.Add(plastic);
+        Debug.Log("Plastic inserted! Starting processing...");
+        StartCoroutine(ProcessPlastic());
     }
 
     private void StoreMetal(GameObject metal)
@@ -102,6 +116,26 @@ public class Furnace : MonoBehaviour
         isProcessing = false;
     }
 
+    private IEnumerator ProcessPlastic()
+    {
+        isProcessingPlastic = true;
+        Debug.Log("Furnace started processing plastic!");
+        SetFurnaceState(true);
+        timer = 0f;
+        while (plasticTimer < processingTime)
+        {
+            plasticTimer += Time.deltaTime;
+            yield return null;
+        }
+        Debug.Log("Processing complete! Creating Pellets.");
+        SetFurnaceState(false);
+        foreach (var plastic in storedPlastic)
+            Destroy(plastic);
+        storedPlastic.Clear();
+        Instantiate(pelletsPrefab, outputPoint.position, Quaternion.identity);
+        isProcessingPlastic = false;
+    }
+
     public int GetMetalCount() => storedMetal.Count;
 
     public float GetProgress()
@@ -109,6 +143,9 @@ public class Furnace : MonoBehaviour
         if (!isProcessing) return 0f;
         return timer / processingTime;
     }
+
+    public float GetPlasticProgress() => isProcessingPlastic ? plasticTimer / processingTime : 0f;
+    public bool IsProcessingPlastic() => isProcessingPlastic;
 
     public void SetFurnaceState(bool on)
     {

@@ -3,7 +3,9 @@ using UnityEngine;
 public enum ItemType 
 {
     MetalScrap,
-    PlasticScrap,
     WheelHub,
-    PlasticEndProduct
+    DirtyBottle,
+    CleanBottle,
+    ShreddedPlastic,
+    PlasticPellets
 }

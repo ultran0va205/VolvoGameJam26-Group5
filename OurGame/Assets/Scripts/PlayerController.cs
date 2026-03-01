@@ -23,6 +23,11 @@ public class PlayerController : MonoBehaviour
 
     private Furnace currentFurnace;
 
+    private Sink currentSink = null;
+    private bool isButtonHeld = false;
+
+    private Shredder currentShredder = null;
+
     private Bin currentBin = null;
 
     [SerializeField] private Animator animator;
@@ -137,12 +142,45 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnSpamButton(InputAction.CallbackContext context) //Square Button
+    public void OnHoldButton(InputAction.CallbackContext context) //Square Button
     {
-        if (context.performed)
+        if (context.started)
         {
-            Debug.Log("Spam Button - Square");
+            isButtonHeld = true;
+            if (currentSink != null)
+                currentSink.StartWashing(this);
+            if (currentShredder != null)
+                currentShredder.StartShredding(this);
         }
+        else if (context.canceled)
+        {
+            isButtonHeld = false;
+            if (currentSink != null && currentSink.IsWashing())
+                currentSink.CancelWashing();
+            if (currentShredder != null && currentShredder.IsShredding())
+                currentShredder.CancelShredding();
+        }
+    }
+
+    public void ForceSetHeldItem(GameObject item)
+    {
+        heldItem = item;
+
+        Rigidbody rb = heldItem.GetComponent<Rigidbody>();
+        rb.isKinematic = true;
+        rb.linearVelocity = Vector3.zero;
+
+        heldItem.transform.SetParent(holdPoint);
+        heldItem.transform.localPosition = Vector3.zero;
+        heldItem.transform.localRotation = Quaternion.identity;
+
+        heldItemOriginalSortingOrder = heldItem.GetComponentInChildren<SpriteRenderer>().sortingOrder;
+        heldItem.GetComponentInChildren<SpriteRenderer>().sortingOrder = 2;
+    }
+
+    public void ClearHeldItem()
+    {
+        heldItem = null;
     }
 
     private void Update()
@@ -190,6 +228,13 @@ public class PlayerController : MonoBehaviour
             currentBin = bin;
             //Debug.Log($"Entered {bin.name}");
         }
+
+        Sink sink = other.GetComponentInParent<Sink>();
+        //Debug.Log("Can interact with sink");
+        if (sink != null) currentSink = sink;
+
+        Shredder shredder = other.GetComponentInParent<Shredder>();
+        if (shredder != null) currentShredder = shredder;
     }
 
     private void OnTriggerExit(Collider other)
@@ -206,8 +251,15 @@ public class PlayerController : MonoBehaviour
             currentBin = null;
             //Debug.Log($"Exited {bin.name}");
         }
+
+        Sink sink = other.GetComponentInParent<Sink>();
+        //Debug.Log("Cannot interact with sink");
+        if (sink != null && currentSink == sink) currentSink = null;
+
+        Shredder shredder = other.GetComponentInParent<Shredder>();
+        if (shredder != null && currentShredder == shredder) currentShredder = null;
     }
 
-   
+    public GameObject GetHeldItem() => heldItem;
 
 }
