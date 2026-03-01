@@ -168,7 +168,6 @@ public class PlayerController : MonoBehaviour
             animator.SetFloat(BlendY, Mathf.Lerp(animator.GetFloat(BlendY), moveInput.y, Time.deltaTime * 10f));
         }
 
-        Debug.Log($"moveInput: {moveInput} | BlendX: {animator.GetFloat(BlendX)} | BlendY: {animator.GetFloat(BlendY)}");
         animator.SetBool(IsWalking, moveInput.magnitude > 0.1f);
 
         if (heldItem != null)
@@ -189,7 +188,7 @@ public class PlayerController : MonoBehaviour
         if (bin != null)
         {
             currentBin = bin;
-            Debug.Log($"Entered {bin.name}");
+            //Debug.Log($"Entered {bin.name}");
         }
     }
 
@@ -205,7 +204,7 @@ public class PlayerController : MonoBehaviour
         if (bin != null && currentBin == bin)
         {
             currentBin = null;
-            Debug.Log($"Exited {bin.name}");
+            //Debug.Log($"Exited {bin.name}");
         }
     }
 

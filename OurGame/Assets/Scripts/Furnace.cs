@@ -27,6 +27,7 @@ public class Furnace : MonoBehaviour
     [SerializeField] private Sprite RmoldOnSprite;
 
     private bool isOn = false;
+    private float timer = 0f;
 
     private void Start()
     {
@@ -76,12 +77,12 @@ public class Furnace : MonoBehaviour
         Debug.Log("Furnace started processing!");
         SetFurnaceState(true);
 
-        float timer = 0f;
+        timer = 0f;
 
         while (timer < processingTime)
         {
             timer += Time.deltaTime;
-            Debug.Log($"Processing... {timer:F1}/{processingTime} seconds");
+            //Debug.Log($"Processing... {timer:F1}/{processingTime} seconds");
             yield return null;
         }
 
@@ -99,6 +100,14 @@ public class Furnace : MonoBehaviour
         Instantiate(wheelHubPrefab, outputPoint.position, Quaternion.identity);
 
         isProcessing = false;
+    }
+
+    public int GetMetalCount() => storedMetal.Count;
+
+    public float GetProgress()
+    {
+        if (!isProcessing) return 0f;
+        return timer / processingTime;
     }
 
     public void SetFurnaceState(bool on)
