@@ -42,6 +42,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Characters
+    uniqueID: 3103510681
+    locked: 0
+  - name: Items
+    uniqueID: 1961851027
+    locked: 0
+  - name: Floor
+    uniqueID: 379566511
+    locked: 0
   m_RenderingLayers:
   - Default
   - Light Layer 1

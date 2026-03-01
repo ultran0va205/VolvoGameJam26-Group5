@@ -2,21 +2,21 @@ using UnityEngine;
 
 public class PickableItem : MonoBehaviour
 {
-    [SerializeField] Material normalMat;
-    [SerializeField] Material highlightedMat;
-    [SerializeField] MeshRenderer parentRenderer;
+    [SerializeField] private Sprite normalSprite;
+    [SerializeField] private Sprite highlightedSprite;
+    [SerializeField] private SpriteRenderer parentRenderer;
 
     private bool isPlayerNearby = false;
 
     private void Awake()
     {
         if (parentRenderer == null)
-            parentRenderer = GetComponentInParent<MeshRenderer>();
+            parentRenderer = GetComponentInChildren<SpriteRenderer>();
 
         if (parentRenderer != null)
-            parentRenderer.material = normalMat;
+            parentRenderer.sprite = normalSprite;
         else
-            Debug.LogWarning("PickableItem: No MeshRenderer found in parent!");
+            Debug.LogWarning("PickableItem: No SpriteRenderer found in parent!");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -24,9 +24,13 @@ public class PickableItem : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerNearby = true;
-            Debug.Log("Pickable");
+
             if (parentRenderer != null)
-                parentRenderer.material = highlightedMat;
+                parentRenderer.sprite = highlightedSprite;
+
+            PlayerController pc = other.GetComponent<PlayerController>();
+            if (pc != null)
+                pc.SetCurrentInteractable(this);
         }
     }
 
@@ -35,8 +39,13 @@ public class PickableItem : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerNearby = false;
+
             if (parentRenderer != null)
-                parentRenderer.material = normalMat;
+                parentRenderer.sprite = normalSprite;
+
+            PlayerController pc = other.GetComponent<PlayerController>();
+            if (pc != null)
+                pc.ClearCurrentInteractable(this);
         }
     }
 

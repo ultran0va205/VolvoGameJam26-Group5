@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     private CharacterController controller;
     private Vector2 moveInput;
 
+    private PickableItem currentInteractable;
     private GameObject heldItem;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -18,10 +19,26 @@ public class PlayerController : MonoBehaviour
         controller = GetComponent<CharacterController>();
     }
 
+    public void SetCurrentInteractable(PickableItem item)
+    {
+        currentInteractable = item;
+    }
+
+    public void ClearCurrentInteractable(PickableItem item)
+    {
+        if (currentInteractable == item)
+            currentInteractable = null;
+    }
+
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
         //Debug.Log($"Move Input: {moveInput}");
+    }
+
+    public Vector2 GetMoveInput()
+    {
+        return moveInput;
     }
 
     public void OnPickButton (InputAction.CallbackContext context) //X button
@@ -72,18 +89,16 @@ public class PlayerController : MonoBehaviour
         }
 
         //PICK UP nearby cube
-        Collider[] nearby = Physics.OverlapSphere(transform.position, 1f);
-        foreach (var col in nearby)
+        if (heldItem == null && currentInteractable != null && currentInteractable.IsInteractible())
         {
-            PickableItem pickable = col.GetComponent<PickableItem>();
-            if (pickable != null && pickable.IsInteractible())
-            {
-                // Parent cube stops moving with belt while held
-                heldItem = pickable.transform.parent.gameObject; // metal cube
-                heldItem.transform.SetParent(null);              // unparent from belt
-                heldItem.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
-                break;
-            }
+            heldItem = currentInteractable.transform.parent != null
+                ? currentInteractable.transform.parent.gameObject
+                : currentInteractable.gameObject;
+
+            heldItem.transform.SetParent(null); // unparent from belt
+            heldItem.GetComponent<Rigidbody>().linearVelocity = Vector3.zero;
+
+            currentInteractable = null; // clear since picked up
         }
     }
 
@@ -118,4 +133,5 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+   
 }
