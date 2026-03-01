@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class ConveyorSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject metalPrefab;
+    [SerializeField] private GameObject[] itemPrefabs;
     [SerializeField] private Transform spawnPoint;
     [SerializeField] private float spawnInterval;
 
@@ -22,6 +22,7 @@ public class ConveyorSpawner : MonoBehaviour
 
     private void SpawnItem()
     {
-        Instantiate(metalPrefab, spawnPoint.position, Quaternion.identity);
+        int randomIndex = Random.Range(0, itemPrefabs.Length);
+        Instantiate(itemPrefabs[randomIndex], spawnPoint.position, Quaternion.identity);
     }
 }
