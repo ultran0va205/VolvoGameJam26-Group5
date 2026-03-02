@@ -121,7 +121,7 @@ public class Furnace : MonoBehaviour
         isProcessingPlastic = true;
         Debug.Log("Furnace started processing plastic!");
         SetFurnaceState(true);
-        timer = 0f;
+        plasticTimer = 0f;
         while (plasticTimer < processingTime)
         {
             plasticTimer += Time.deltaTime;

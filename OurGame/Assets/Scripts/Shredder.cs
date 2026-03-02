@@ -22,6 +22,8 @@ public class Shredder : MonoBehaviour
 
     public void StartShredding(PlayerController player)
     {
+        if (isShredding) return;
+
         GameObject heldItem = player.GetHeldItem();
         if (heldItem == null) { Debug.Log("No held item!"); return; }
 

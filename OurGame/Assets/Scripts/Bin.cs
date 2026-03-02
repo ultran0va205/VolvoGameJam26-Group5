@@ -30,6 +30,13 @@ public class Bin : MonoBehaviour
             return true;
         }
 
+        if (binType == BinType.Plastic && item.itemType == ItemType.PlasticPellets)
+        {
+            Debug.Log($"Bin {binType} disposing {itemObject.name}");
+            Destroy(itemObject);
+            return true;
+        }
+
         return false;
     }
 }

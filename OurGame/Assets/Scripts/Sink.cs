@@ -44,10 +44,10 @@ public class Sink : MonoBehaviour
         Debug.Log("Washing cancelled!");
         isWashing = false;
         timer = 0f;
-        currentPlayer = null;
         GameObject heldItem = currentPlayer.GetHeldItem();
         if (heldItem != null)
             heldItem.SetActive(true); // bring it back
+        currentPlayer = null;
     }
 
     private void CompleteWashing()
