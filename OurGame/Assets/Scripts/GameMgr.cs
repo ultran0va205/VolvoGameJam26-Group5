@@ -16,7 +16,20 @@ public class GameMgr : MonoBehaviour
     {
         Debug.Log("GameOver Triggered");
         Time.timeScale = 0f;
+        AudioMgr.Instance.StopAll();
         GameOverUI.Instance.Show();
+    }
+
+    public void GoToMainMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void QuitGame()
+    {
+        Debug.Log("Quit!");
+        Application.Quit();
     }
 
     public void RestartGame()

@@ -126,7 +126,9 @@ public class PlayerController : MonoBehaviour
             heldItem = currentInteractable.GetComponentInParent<Rigidbody>()?.gameObject;
 
             // Stop physics
-            Rigidbody rb = heldItem.GetComponent<Rigidbody>();
+            Rigidbody rb = currentInteractable.GetComponentInChildren<Rigidbody>()
+             ?? currentInteractable.GetComponentInParent<Rigidbody>();
+            heldItem = rb?.gameObject ?? currentInteractable.gameObject;
             rb.linearVelocity = Vector3.zero;
             rb.isKinematic = true;
 

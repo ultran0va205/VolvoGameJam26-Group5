@@ -23,7 +23,7 @@ public class Bin : MonoBehaviour
 
         if ((binType == BinType.Metal && item.itemType == ItemType.WheelHub))
         {
-
+            AudioMgr.Instance.PlayBin();
             Destroy(itemObject); // remove from scene
 
             Debug.Log($"Bin {binType} checking item {itemObject.name} of type {item.itemType}");
@@ -32,6 +32,7 @@ public class Bin : MonoBehaviour
 
         if (binType == BinType.Plastic && item.itemType == ItemType.PlasticPellets)
         {
+            AudioMgr.Instance.PlayBin();
             Debug.Log($"Bin {binType} disposing {itemObject.name}");
             Destroy(itemObject);
             return true;

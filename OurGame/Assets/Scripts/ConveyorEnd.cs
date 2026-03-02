@@ -38,8 +38,11 @@ public class ConveyorEnd : MonoBehaviour
         Rigidbody rb = other.GetComponent<Rigidbody>();
         if (rb != null)
         {
+            AudioMgr.Instance.PlaySewage();
             Destroy(other.gameObject);
             itemsLost++;
+            FirstSewageTip.Instance.TriggerTip();
+
             Debug.Log($"Items lost: {itemsLost}/{maxItemsLost}");
 
             TriggerShake();

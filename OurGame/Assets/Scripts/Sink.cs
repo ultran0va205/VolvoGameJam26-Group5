@@ -37,6 +37,7 @@ public class Sink : MonoBehaviour
         isWashing = true;
         timer = 0f;
         heldItem.SetActive(false); // hide immediately
+        AudioMgr.Instance.PlayWashing();
     }
 
     public void CancelWashing()
@@ -48,6 +49,7 @@ public class Sink : MonoBehaviour
         if (heldItem != null)
             heldItem.SetActive(true); // bring it back
         currentPlayer = null;
+        AudioMgr.Instance.StopWashing();
     }
 
     private void CompleteWashing()
@@ -66,6 +68,7 @@ public class Sink : MonoBehaviour
         Destroy(heldItem);
         Debug.Log($"Destroying: {heldItem.name}");
         currentPlayer = null;
+        AudioMgr.Instance.StopWashing();    
     }
 
     public float GetProgress() => timer / washTime;

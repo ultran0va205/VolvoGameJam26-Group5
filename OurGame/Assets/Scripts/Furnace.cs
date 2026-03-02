@@ -90,7 +90,7 @@ public class Furnace : MonoBehaviour
 
         Debug.Log("Furnace started processing!");
         SetFurnaceState(true);
-
+        AudioMgr.Instance.PlayFurnaceStart();
         timer = 0f;
 
         while (timer < processingTime)
@@ -102,7 +102,7 @@ public class Furnace : MonoBehaviour
 
         Debug.Log("Processing complete! Creating Wheel Hub.");
         SetFurnaceState(false);
-
+        AudioMgr.Instance.PlayFurnaceEnd();
 
         // Destroy stored metal scraps
         foreach (var metal in storedMetal)
@@ -121,6 +121,7 @@ public class Furnace : MonoBehaviour
         isProcessingPlastic = true;
         Debug.Log("Furnace started processing plastic!");
         SetFurnaceState(true);
+        AudioMgr.Instance.PlayFurnaceStart();
         plasticTimer = 0f;
         while (plasticTimer < processingTime)
         {
@@ -129,6 +130,7 @@ public class Furnace : MonoBehaviour
         }
         Debug.Log("Processing complete! Creating Pellets.");
         SetFurnaceState(false);
+        AudioMgr.Instance.PlayFurnaceEnd();
         foreach (var plastic in storedPlastic)
             Destroy(plastic);
         storedPlastic.Clear();
